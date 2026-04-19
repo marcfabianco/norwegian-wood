@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norwegian Wood — Music Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a1714;
+    --card-bg: #231f1b;
+    --accent: #c8a96e;
+    --accent-dim: #8a7348;
+    --text: #e8e0d4;
+    --text-muted: #9a8e7e;
+    --border: #3a332b;
+    --hover: #2c2621;
+    --red: #b85450;
+    --green: #6b8f71;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .grain {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    z-index: 999;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--accent);
+    margin: 30px auto 0;
+  }
+
+  .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.15;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .intro {
+    max-width: 600px;
+    margin: 20px auto 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px 30px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(200, 169, 110, 0.08);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead th {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    text-align: left;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  thead th:first-child {
+    width: 40px;
+    text-align: center;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(58, 51, 43, 0.5);
+    transition: background 0.2s ease;
+    animation: fadeIn 0.4s ease both;
+  }
+
+  tbody tr:hover {
+    background: var(--hover);
+  }
+
+  tbody td {
+    padding: 14px 20px;
+    vertical-align: top;
+  }
+
+  tbody td:first-child {
+    text-align: center;
+    color: var(--accent-dim);
+    font-size: 12px;
+    font-weight: 500;
+    width: 40px;
+  }
+
+  .song-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .artist {
+    font-size: 12px;
+    color: var(--accent-dim);
+  }
+
+  .genre-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  .genre-rock { color: var(--red); border: 1px solid rgba(184,84,80,0.3); }
+  .genre-jazz { color: #7ea4c8; border: 1px solid rgba(126,164,200,0.3); }
+  .genre-classical { color: #b89ad4; border: 1px solid rgba(184,154,212,0.3); }
+  .genre-folk { color: var(--green); border: 1px solid rgba(107,143,113,0.3); }
+  .genre-pop { color: #d4a574; border: 1px solid rgba(212,165,116,0.3); }
+  .genre-bossa { color: #79b5a0; border: 1px solid rgba(121,181,160,0.3); }
+
+  .context {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 380px;
+  }
+
+  .character-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .yt-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .yt-link:hover {
+    border-color: #ff4444;
+    color: #ff6666;
+    background: rgba(255,68,68,0.06);
+  }
+
+  .yt-link svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  .count {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hidden { display: none; }
+
+  @media (max-width: 768px) {
+    table { font-size: 13px; }
+    thead th, tbody td { padding: 10px 12px; }
+    .context { max-width: 220px; }
+    .song-title { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <div class="subtitle">Haruki Murakami</div>
+  <h1><em>Norwegian Wood</em><br>Music Guide</h1>
+  <p class="intro">Every song, melody, and musical reference from the novel — with scene context and links to listen.</p>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="rock">Rock & Pop</button>
+  <button class="filter-btn" data-filter="jazz">Jazz</button>
+  <button class="filter-btn" data-filter="classical">Classical</button>
+  <button class="filter-btn" data-filter="folk">Folk</button>
+  <button class="filter-btn" data-filter="bossa">Bossa Nova</button>
+</div>
+
+<div class="container">
+  <div class="table-wrapper">
+    <table id="musicTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Song / Piece</th>
+          <th>Scene</th>
+          <th>Listen</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="count" id="count"></div>
+</div>
+
+<script>
+const ytSvg = `<svg viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1-1-1.8-2-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.5.6c-1 .3-1.8 1.1-2 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8c.3 1 1 1.8 2 2.1 1.9.6 9.5.6 9.5.6s7.6 0 9.5-.6c1-.3 1.8-1.1 2-2.1.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>`;
+
+const songs = [
+  { n: 1, title: "Norwegian Wood (This Bird Has Flown)", artist: "The Beatles", genre: "rock", character: "Toru", context: "The novel's opening scene. Thirty-seven-year-old Toru is landing at Hamburg airport when a soft orchestral cover of this song drifts through the cabin speakers. The melody instantly floods him with memories of Naoko, their long Sunday walks through Tokyo, and a past he thought he had buried. He is so overwhelmed he has to ask the flight attendant for a glass of water. This moment launches the entire narrative.", yt: "https://www.youtube.com/watch?v=Y_V6y1ZCg_8" },
+  { n: 2, title: "Dear Heart", artist: "Henry Mancini", genre: "pop", character: "Naoko", context: "During their early period of reconnection in Tokyo, before Naoko enters the sanatorium, Toru buys her a Henry Mancini album as a Christmas gift because it contains this song — Naoko's favourite. It's a small, tender gesture that reveals how carefully Toru pays attention to her, even when she seems emotionally unreachable.", yt: "https://www.youtube.com/watch?v=CXJ-sA5aM_E" },
+  { n: 3, title: "Symphony No. 4", artist: "Johannes Brahms", genre: "classical", character: "Naoko", context: "Toru and Naoko had tickets to see Brahms' Fourth performed live — one of the few planned social outings they share as a pair. But Toru's eccentric dormmate Storm Trooper falls ill, and Toru feels obligated to stay and look after him. The missed concert becomes a quiet symbol of their relationship: closeness always deferred, always interrupted.", yt: "https://www.youtube.com/watch?v=keXPClVJGrc" },
+  { n: 4, title: "Sgt. Pepper's Lonely Hearts Club Band", artist: "The Beatles", genre: "rock", character: "Naoko", context: "On the night of Naoko's 20th birthday, Toru visits her small apartment. They share wine and he plays all six of her records one by one. Sgt. Pepper's is the first he puts on. The evening is warm and intimate, but ends with Naoko crying and the two of them sleeping together for the first time — after which she disappears from his life for weeks.", yt: "https://www.youtube.com/watch?v=lLUJgntOJqE" },
+  { n: 5, title: "Waltz for Debby", artist: "Bill Evans", genre: "jazz", character: "Naoko", context: "The last record Toru plays on Naoko's birthday night. Bill Evans' gentle, melancholic piano closes out the evening just before the emotional turning point — Naoko's tears, their physical intimacy, and the silence that follows. The tenderness of the music makes the scene ache.", yt: "https://www.youtube.com/watch?v=6JO2WE7atAM" },
+  { n: 6, title: "Seven Daffodils", artist: "The Brothers Four", genre: "folk", character: "Midori", context: "On Toru's first visit to Midori's family home above their small bookshop, he brings her a bunch of daffodils. She lights up and spontaneously bursts into this folk song, laughing as she recalls singing it in a school talent show as a child. It's one of the first moments Toru sees Midori's irrepressible, childlike energy — a stark contrast to Naoko's fragility.", yt: "https://www.youtube.com/watch?v=f8Y4l4JKPsE" },
+  { n: 7, title: "Puff (The Magic Dragon)", artist: "Peter, Paul and Mary", genre: "folk", character: "Midori", context: "While Toru and Midori are at her family's house, the neighbour's house catches fire. Instead of panicking, Midori grabs her guitar, sits on the balcony, and begins strumming and singing folk songs one after another as flames and smoke rise next door. She plays this children's song with absolute calm — a surreal, darkly comic scene that defines Midori's character.", yt: "https://www.youtube.com/watch?v=Y7lmAc3LKWM" },
+  { n: 8, title: "Lemon Tree", artist: "Peter, Paul and Mary", genre: "folk", character: "Midori", context: "Part of Midori's impromptu balcony concert during the fire. She moves from song to song without missing a beat, as if serenading the disaster. Toru watches in disbelief, but this is Midori's way of asserting life against chaos — a philosophy that runs through the entire novel.", yt: "https://www.youtube.com/watch?v=MLhYghzNfII" },
+  { n: 9, title: "Five Hundred Miles", artist: "Peter, Paul and Mary", genre: "folk", character: "Midori", context: "Still on the balcony with the fire raging. Midori sings this wistful folk song about distance and longing. The juxtaposition — a song about being far from home while her literal neighbourhood burns — is peak Murakami absurdism.", yt: "https://www.youtube.com/watch?v=pI_MpXWfP6I" },
+  { n: 10, title: "Where Have All the Flowers Gone?", artist: "Pete Seeger", genre: "folk", character: "Midori", context: "The anti-war folk standard becomes another song in Midori's fire-side set. Given the late-1960s Tokyo setting — with student protests raging at Toru's university — the song's themes of cycles of loss carry an extra layer of meaning.", yt: "https://www.youtube.com/watch?v=QmBLSGy6g58" },
+  { n: 11, title: "Michael Row the Boat Ashore", artist: "Traditional", genre: "folk", character: "Midori", context: "The final song in Midori's balcony performance as the fire dies down. A spiritual about crossing over to the other side — sung by a girl who refuses to let death or destruction dampen her spirit. Toru is bewildered and charmed in equal measure.", yt: "https://www.youtube.com/watch?v=oQK1SE47HCk" },
+  { n: 12, title: "Michelle", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Toru's first visit to Ami Hostel, the mountain sanatorium where Naoko is recovering. After dinner, Reiko — Naoko's older roommate and a gifted former pianist — picks up her guitar and begins to play. 'Michelle' is one of the first songs, setting a warm, intimate mood in the small shared room as the three of them spend their first evening together.", yt: "https://www.youtube.com/watch?v=J_ZAZ66IjZY" },
+  { n: 13, title: "Nowhere Man", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Reiko continues her evening guitar session at Ami Hostel. She plays with quiet confidence and visible pleasure — music is clearly the centre of her identity, even in this place of recovery. Naoko listens contentedly, and Toru realises this nightly ritual is part of what sustains both women.", yt: "https://www.youtube.com/watch?v=8scSwaKbE64" },
+  { n: 14, title: "Julia", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Lennon's deeply personal song about his mother — one of the most delicate Beatles songs. Reiko plays it quietly in the hostel room. Given that Naoko's own emotional wounds are rooted in loss and grief, the choice feels deliberate and loaded.", yt: "https://www.youtube.com/watch?v=TZip_br_v3w" },
+  { n: 15, title: "Bach Fugue", artist: "J.S. Bach", genre: "classical", character: "Reiko", context: "Reiko plays a Bach fugue on classical guitar during the evening at Ami Hostel, demonstrating the serious musical training she had before her breakdown. The precision and beauty of Bach stands in contrast to the emotional turbulence that brought Reiko to this place.", yt: "https://www.youtube.com/watch?v=eW5tZGuQnOU" },
+  { n: 16, title: "Scarborough Fair", artist: "Simon & Garfunkel", genre: "folk", character: "Reiko", context: "During a picnic outing near the sanatorium, this song comes on the radio. Reiko is delighted and later performs her own guitar arrangement of it. The pastoral setting — fields, birdsong, the mountain air — makes the scene one of the novel's few moments of untroubled peace.", yt: "https://www.youtube.com/watch?v=-BakWVXHSug" },
+  { n: 17, title: "White Room", artist: "Cream", genre: "rock", character: "—", context: "Plays on the portable radio during the same picnic at Ami Hostel. Clapton's psychedelic rock floats across the mountain landscape as Toru, Naoko, and Reiko share food and conversation. A brief window of normalcy in an otherwise heavy story.", yt: "https://www.youtube.com/watch?v=VR90gQ-SIaY" },
+  { n: 18, title: "Piano Concerto No. 2", artist: "Johannes Brahms", genre: "classical", character: "Reiko", context: "After a long, emotionally charged walk through the woods, Toru and Naoko return to the hostel to find Reiko alone, reading and listening to Brahms on the radio. The heaviness of the concerto mirrors the weight of what Toru and Naoko have just shared — confessions, silences, and things left unsaid.", yt: "https://www.youtube.com/watch?v=40NsFKuskH0" },
+  { n: 19, title: "Desafinado", artist: "Antonio Carlos Jobim", genre: "bossa", character: "Reiko", context: "Reiko plays this bossa nova standard at Ami Hostel — its title means 'Out of Tune,' which carries an ironic edge given her perfectionist musical past. She plays it with warmth and ease, showing that music has become her therapy rather than her torment. She reprises it later in her Tokyo farewell.", yt: "https://www.youtube.com/watch?v=L7lmMNweUVU" },
+  { n: 20, title: "The Girl from Ipanema", artist: "Antonio Carlos Jobim", genre: "bossa", character: "Reiko", context: "Performed alongside 'Desafinado' during the hostel evenings. Reiko's bossa nova selections bring a lightness and sensuality to the sanatorium that feels almost transgressive — a reminder that beauty and pleasure persist even in places built around suffering.", yt: "https://www.youtube.com/watch?v=sVdaFQhS86E" },
+  { n: 21, title: "Jumpin' Jack Flash", artist: "The Rolling Stones", genre: "rock", character: "Toru", context: "Back in Tokyo, Toru works part-time at a record shop. A young woman comes in and asks him to play this Stones track. It's a brief, almost throwaway moment, but it grounds us in the late-1960s setting and in Toru's quiet, passive existence — always playing other people's music, never choosing his own.", yt: "https://www.youtube.com/watch?v=XCMrXC8D05Q" },
+  { n: 22, title: "People Are Strange", artist: "The Doors", genre: "rock", character: "Midori", context: "During one of their long, wandering conversations, Toru confesses to Midori that he feels like he hasn't adapted to the real world — that everything feels slightly off. Midori responds by referencing this Doors song, gently teasing him. It's a moment of connection through pop culture that highlights how naturally they communicate.", yt: "https://www.youtube.com/watch?v=AgHaGrZkkv4" },
+  { n: 23, title: "Honeysuckle Rose", artist: "Thelonious Monk", genre: "jazz", character: "—", context: "Toru and Midori are drinking beer together in the afternoon at a jazz bar or café. Monk's playful, angular piano fills the room. It's one of the novel's most relaxed scenes — two young people enjoying each other's company with nowhere to be, the jazz providing a warm, unhurried backdrop.", yt: "https://www.youtube.com/watch?v=8Xted0J5upw" },
+  { n: 24, title: "Kind of Blue", artist: "Miles Davis", genre: "jazz", character: "Toru", context: "Alone in his dorm room on a rainy day, Toru puts Miles Davis' masterpiece on repeat and watches the rain streak down the window. In this state of solitary contemplation, he sits down and writes a long letter to Naoko at the sanatorium. The album's cool, melancholic beauty becomes the emotional texture of his loneliness.", yt: "https://www.youtube.com/watch?v=FEPFH-gz3wE" },
+  { n: 25, title: "Yesterday", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Near the novel's end, after Naoko's death, Reiko leaves Ami Hostel and visits Toru in Tokyo. As a memorial and farewell, she picks up her guitar and plays 51 songs — a private funeral concert for Naoko. 'Yesterday,' with its theme of sudden, irreversible loss, is among the most emotionally devastating choices in the set.", yt: "https://www.youtube.com/watch?v=WSuVCyT63II" },
+  { n: 26, title: "Something", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Part of Reiko's 51-song farewell concert in Toru's Tokyo apartment. Harrison's tender love ballad becomes a tribute to the beauty and mystery of Naoko — someone who could never quite be reached or held onto.", yt: "https://www.youtube.com/watch?v=UelDrZ1aFeY" },
+  { n: 27, title: "Here Comes the Sun", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Reiko plays this during the farewell concert. In the context of mourning, the song's promise that darkness will pass takes on an almost unbearable hopefulness — as if Reiko is willing both herself and Toru to believe that life can continue.", yt: "https://www.youtube.com/watch?v=KQetemT1sWc" },
+  { n: 28, title: "The Fool on the Hill", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Another selection from the farewell concert. The song's portrait of someone misunderstood and alone on a hilltop resonates with the novel's portrayal of both Naoko and Reiko — women whose inner worlds others can see but never truly enter.", yt: "https://www.youtube.com/watch?v=wsRatIMUSu8" },
+  { n: 29, title: "Penny Lane", artist: "The Beatles", genre: "rock", character: "Reiko", context: "One of the more upbeat choices in the farewell concert. Its vivid, nostalgic snapshot of everyday life offers a brief respite from the heavier songs — a reminder that ordinary, sunlit days existed alongside the grief.", yt: "https://www.youtube.com/watch?v=S-rB0pHI9fU" },
+  { n: 30, title: "Blackbird", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Reiko plays McCartney's delicate acoustic song about liberation and taking flight. Given that Reiko is herself leaving the sanatorium and stepping back into the world, the lyrics carry a deeply personal resonance for her.", yt: "https://www.youtube.com/watch?v=Man4Xw8Xypo" },
+  { n: 31, title: "When I'm Sixty-Four", artist: "The Beatles", genre: "rock", character: "Reiko", context: "A lighter, almost whimsical moment in the farewell concert. McCartney's music-hall daydream about growing old together introduces a bittersweet irony — Naoko will never grow old. Reiko plays it with the kind of smile that holds back tears.", yt: "https://www.youtube.com/watch?v=vAzaOZfgf0M" },
+  { n: 32, title: "And I Love Her", artist: "The Beatles", genre: "rock", character: "Reiko", context: "A simple, direct love song played during the farewell. Its understated beauty mirrors the way the novel treats love itself — as something fragile, present, and impossible to hold permanently.", yt: "https://www.youtube.com/watch?v=uf4YLmtYXzc" },
+  { n: 33, title: "Hey Jude", artist: "The Beatles", genre: "rock", character: "Reiko", context: "Perhaps the emotional climax of the farewell concert. McCartney's anthem about taking something sad and making it better becomes a direct message from Reiko to Toru: don't carry this alone, don't let the grief win. The extended coda must have filled that small Tokyo apartment.", yt: "https://www.youtube.com/watch?v=A_MjCqQoLLA" },
+  { n: 34, title: "Eleanor Rigby", artist: "The Beatles", genre: "rock", character: "Reiko", context: "A song about the lonely and forgotten, played in memory of Naoko. The image of someone dying alone and nobody coming resonates painfully with the novel's themes of isolation and the limits of how much one person can save another.", yt: "https://www.youtube.com/watch?v=kE-VRFWmHJ4" },
+  { n: 35, title: "Pavane pour une infante défunte", artist: "Maurice Ravel", genre: "classical", character: "Reiko", context: "Reiko plays Ravel's piece during the farewell concert. The title translates to 'Pavane for a Dead Princess' — a staggeringly direct choice for a memorial to Naoko. Ravel intended it as a nostalgic evocation of a Spanish court dance, but in this context it becomes an elegy.", yt: "https://www.youtube.com/watch?v=o9XfuWJ_iLU" },
+  { n: 36, title: "Clair de Lune", artist: "Claude Debussy", genre: "classical", character: "Reiko", context: "Debussy's luminous piano piece, adapted by Reiko for guitar during the farewell. 'Clair de Lune' means 'moonlight,' and the piece's shimmering, dreamlike quality evokes the way memory works in the novel — everything bathed in a soft, distant glow.", yt: "https://www.youtube.com/watch?v=fFLPdxdvEXk" },
+  { n: 37, title: "(They Long to Be) Close to You", artist: "Burt Bacharach", genre: "pop", character: "Reiko", context: "Part of the Bacharach set in the farewell concert. A song about wanting to be near someone — achingly appropriate for a novel built around the impossibility of true closeness. Toru longed to be close to Naoko; she could never fully let him in.", yt: "https://www.youtube.com/watch?v=QWJeTJ8KYFU" },
+  { n: 38, title: "Raindrops Keep Fallin' on My Head", artist: "Burt Bacharach", genre: "pop", character: "Reiko", context: "Another Bacharach standard in the farewell. Its jaunty optimism in the face of trouble mirrors Reiko's own resilience — she has survived her breakdown and is choosing to re-enter life, even knowing what it can do to a person.", yt: "https://www.youtube.com/watch?v=HsbkPDeC3tI" },
+  { n: 39, title: "Walk On By", artist: "Burt Bacharach / Dionne Warwick", genre: "pop", character: "Reiko", context: "A song about hiding heartbreak behind a composed exterior — fitting for Reiko, who has spent years learning to live with her wounds in the structured world of the sanatorium. Now she must walk on, past the hostel, past Naoko's death, and into uncertainty.", yt: "https://www.youtube.com/watch?v=JPKYPN7ljX4" },
+  { n: 40, title: "Sukiyaki (Ue o Muite Arukō)", artist: "Kyu Sakamoto", genre: "pop", character: "Reiko", context: "The only Japanese pop song named in the farewell set. Its original title means 'I Look Up as I Walk' — a song about holding back tears by gazing at the sky. A deeply Japanese expression of restrained grief, and the one song in the concert that connects Naoko's memory directly to her own culture.", yt: "https://www.youtube.com/watch?v=C35DrtPlUbc" },
+  { n: 41, title: "Blue Velvet", artist: "Bobby Vinton", genre: "pop", character: "Reiko", context: "Vinton's dreamy, nostalgic ballad, played during the farewell. The song's imagery of a lost love seen through a haze of memory echoes how Toru himself is narrating the entire novel — looking back through 18 years of distance at people and moments now gone.", yt: "https://www.youtube.com/watch?v=icfq_foa5Mo" },
+  { n: 42, title: "Green Fields", artist: "The Brothers Four", genre: "folk", character: "Reiko", context: "A folk song about returning to green fields that have since changed — a landscape of memory and loss. In the farewell concert, it evokes the mountain meadows around Ami Hostel where Toru, Naoko, and Reiko once walked together in what now feels like another lifetime.", yt: "https://www.youtube.com/watch?v=5C0yTQSs1LU" },
+  { n: 43, title: "Up on the Roof", artist: "The Drifters", genre: "pop", character: "Toru", context: "One of the rare moments where Toru himself plays music. He strums this on his guitar — a song about escaping the noise of the world by climbing to a rooftop where everything is quiet. It captures Toru's essential character: someone always looking for a still, elevated place away from the chaos below.", yt: "https://www.youtube.com/watch?v=puM1k-S86nE" }
+];
+
+const tbody = document.querySelector('#musicTable tbody');
+const countEl = document.getElementById('count');
+
+function render(filter) {
+  const filtered = filter === 'all' ? songs : songs.filter(s => s.genre === filter);
+  tbody.innerHTML = '';
+  filtered.forEach((s, i) => {
+    const row = document.createElement('tr');
+    row.style.animationDelay = `${i * 30}ms`;
+    const genreLabel = { rock: 'Rock / Pop', jazz: 'Jazz', classical: 'Classical', folk: 'Folk', pop: 'Pop', bossa: 'Bossa Nova' }[s.genre] || s.genre;
+    row.innerHTML = `
+      <td>${s.n}</td>
+      <td>
+        <span class="song-title">${s.title}</span>
+        <span class="artist">${s.artist}</span>
+        <span class="genre-tag genre-${s.genre}">${genreLabel}</span>
+      </td>
+      <td class="context">
+        <span class="character-tag">${s.character}</span><br>
+        ${s.context}
+      </td>
+      <td><a class="yt-link" href="${s.yt}" target="_blank" rel="noopener">${ytSvg} Play</a></td>
+    `;
+    tbody.appendChild(row);
+  });
+  countEl.textContent = `${filtered.length} of ${songs.length} tracks shown`;
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.filter);
+  });
+});
+
+render('all');
+</script>
+</body>
+</html>
